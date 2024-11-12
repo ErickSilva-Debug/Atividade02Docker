@@ -1,40 +1,39 @@
-name: CI/CD Pipeline
+name: Build and Push Docker Image
 
 on:
   push:
     branches:
-      - main  # Ou qualquer branch que você deseja monitorar para alterações
-  pull_request:
-    branches:
-      - main
+      - main  # Defina a branch desejada para o push
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    # Configuração Docker
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-
-    # Construir a imagem Docker
-    - name: Build Docker image for React App
-      run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/react-app:${{ github.sha }} .
-
-    # Logar no Docker Hub
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
+        username: ${{ secrets.ericksilvad8 }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-    
-    # Enviar a imagem para o Docker Hub
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Cache Docker layers
+      uses: actions/cache@v2
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
+    - name: Build Docker image
+      run: |
+        docker build -t ericksilvad8/react-app:latest .
+
     - name: Push Docker image
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/react-app:${{ github.sha }}
-
-
+        docker push ericksilvad8/react-app:latest
