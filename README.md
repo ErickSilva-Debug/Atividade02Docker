@@ -1,0 +1,2 @@
+Este repositório automatiza o build, testes e deploy de uma aplicação web composta por Front-End (React), Back-End (Node.js) e Banco de Dados (PostgreSQL) usando Docker e GitHub Actions. Cada componente possui seu Dockerfile para criar as imagens e os workflows do GitHub Actions gerenciam o build, os testes automatizados e o deploy simulado para produção. 
+As imagens são enviadas para o Docker Hub.
