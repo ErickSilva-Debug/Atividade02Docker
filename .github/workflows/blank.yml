@@ -16,11 +16,12 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.ERICKSILVAD8}}  # Verifique o nome exato do seu secret
-        password: ${{ secrets.dckr_pat_DYylulNFt7Gi9BfsdToP4iJg_4k}}  # Verifique o nome exato do seu secret
+        username: ${{ secrets.ericksilvad8 }}  # Nome de usuário do Docker Hub
+        password: ${{ secrets.dckr_pat_DYylulNFt7Gi9BfsdToP4iJg_4k }}  # Token de acesso pessoal do Docker Hub
 
     - name: Build Docker image
       run: docker build -t ericksilvad8/react-app:latest .
 
     - name: Push Docker image
       run: docker push ericksilvad8/react-app:latest
+
