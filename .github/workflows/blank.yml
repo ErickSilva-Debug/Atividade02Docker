@@ -1,38 +1,25 @@
-name: Docker Build and Push
+name: Build and Push Docker Image
 
 on:
   push:
     branches:
-      - main  # ou a branch que você estiver usando
-  pull_request:
-    branches:
       - main
 
 jobs:
-  build:
+  docker_build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v2
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.ericksilvad8 }}  # Seu nome de usuário do Docker Hub
-        password: ${{ secrets.dckr_pat_xywKqk16ng0TVqYR173rZBSTghY }}  # O token de acesso gerado no Docker Hub
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.ericksilvad8 }}
+          password: ${{ secrets.dckr_pat_xywKqk16ng0TVqYR173rZBSTghY}}
 
-    - name: Build and push React app image
-      run: |
-        docker build -t ericksilvad8/react-app .
-        docker push ericksilvad8/react-app
+      - name: Build Docker image
+        run: docker build -t ericksilvad8/react-app .
 
-    - name: Build and push Backend image
-      run: |
-        docker build -t ericksilvad8/backend-app .
-        docker push ericksilvad8/backend-app
-
-    - name: Build and push PostgreSQL image
-      run: |
-        docker build -t ericksilvad8/my-postgres-db .
-        docker push ericksilvad8/my-postgres-db
+      - name: Push Docker image
+        run: docker push ericksilvad8/react-app
